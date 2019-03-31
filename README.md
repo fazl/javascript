@@ -69,12 +69,27 @@ Objects are maps or collections of name,value pairs. Names are strings, values c
 - Reference fields via named subscripts / sub object notation:
   - obj['details']['size'] //12   -- flexible: variables for subscripts
   - obj.details.color //'orange'  -- easier to read, but hard coded names
-- Classes are defined by a prototype function    
+- Classes can be defined by a prototype function :
 ```
 function Student(name, age) {
   this.name = name;
   this.age = age;
 }
 var you = new Student('Bob', 24);  //note keyword new
+```
+- Classes can also be defined by a factory function.. here includes a method fullName:
+```
+function makeStudent(name, age) {
+  return{
+    name: name,
+    age: age,
+    describe: function() {
+      return this.name + ' is ' + this.age + ' yrs old';
+    }
+  }
+}
+var me = makeStudent('Fred', 24);  //no new
+let desc = me.describe(); // 'Fred is 24yrs old'
+```
     
     
