@@ -6,13 +6,14 @@ Note: At [Github][https://github.com/fazl/javascript] this file is 'marked up' i
 ## Basic syntax
 Super-similar to C/Java:
 - same **control structures** (for/while/do,switch/if/else if/else)
-- two kinds of **foreach**: for(let _val_ of _array_) and for( let _prop_ in _object_)
-- can **switch** on a **string** (handy)
-- operators: arithmetic (**+ - * / %**) and conditional (**&& || !**) a la java (inc _short circuit_ behaviour)
-- extra === operator does not promote operands (also has a !==):
-  - **true:** 123 == '123' 
-  - **false:** 123 === '123' 
-- special values: **undefined** (variable not assigned), **null** (a la java)
+    - but adds 2 kinds of _foreach_: for( let _val_ **of array**) and for( let _prop_ **in object**)
+    - and can **switch** on a **string** (handy)
+- same **operators**: _arithmetic_ (**+ - * / %**) and _conditional_ (**&& || !**) a la java (inc _short circuit_ behaviour)
+    - adds extra === operator (does not promote operands):
+        - 123 == '123' //**true** 
+        - 123 === '123' //**false** 
+- same **null** (a la java)
+    - adds special: **undefined** ('variable not assigned yet') 
 
 ## Declarations
   
