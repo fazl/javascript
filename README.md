@@ -8,7 +8,7 @@ Super-similar to C/Java:
 - same **control structures** (for/while/do,switch/if/else if/else)
     - but adds 2 kinds of _foreach_: for( let _val_ **of array**) and for( let _prop_ **in object**)
     - and can **switch** on a **string** (handy)
-- same **operators**: _arithmetic_ (**+ - * / %**) and _conditional_ (**&& || !**) a la java (inc _short circuit_ behaviour)
+- same **operators**: _arithmetic_ (**+ - * / %**) and _conditional_ (**&& || !**) (inc _short circuit_ behaviour)
     - adds extra === operator (does not promote operands):
         - 123 == '123' //**true** 
         - 123 === '123' //**false** 
@@ -19,7 +19,7 @@ Super-similar to C/Java:
   
   - **let** x = 1; // like C++/Java, x **scoped** to end of nearest block
   - **const** PI = 3.14; // like C/C++  (or _final_ in Java)
-  - **var** globalVar = 7; //**Danger**: this makes globalVar accessible everywhere in file
+  - **var** globalVar = 7; //**Danger**: this leaks globalVar name
 
 ## Basic types:
 
@@ -37,11 +37,13 @@ Super-similar to C/Java:
   
 ### String
   
-    - single quotes (maybe double too?)
-    - javascript strings are unicode, each char is either 1 or 2 'code points'
-    - each code point is 16bits
-    - length attribute on strings, returns num code points NB
-    - Java-like methods on strings: s.charAt(n), s.toUppercase(), s.replace('foo', 'bar')
+    - single or double quotes 
+    - strings are unicode, each char is 1 or 2 'code points' (2-byte words)
+    - length attribute on strings, returns num code points NB not bytes or chars
+    - Java-like methods on strings: 
+        - s.charAt(n) 
+        - s.toUppercase()
+        - s.replace('foo', 'bar')
   
 ### Boolean
   - values are **true** and **false**
