@@ -48,13 +48,13 @@ Super-similar to C/Java:
 ### Boolean
   - values: **true**, **false**
   - explicitly convert: Boolean( myInt )
-  - **implicitly**: these _falsey_ values evaluate to false:
+  - **implicitly**: these _falsey_ values evaluate to **false**:
     - _0_ 
     - _empty strings_
     - _null_
     - _NaN_ and 
-    - _undefined_ yield 
-  - everything else **true**
+    - _undefined_ 
+  - all other values evaluate **true**
   - allows some nice/concise idioms:
     - var name = x && x.getName() _// avoids call to getName() unless x exists_
     - var name = cached || (cached=getNameSlowMethod()) _//use cached copy if exists_
