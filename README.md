@@ -1,6 +1,7 @@
 # javascript
 
 While waiting for the twits to give me an api key so I can try out tweepy etc, let's check out a re-introduction to javascript, starting with https://bit.ly/mozilla-js-reintro-tutorial
+Note: At https://github.com/fazl/javascript this file is 'marked up' i.e. easier to read.  You can also read it in a markdown viewer.
 
 ## Basic syntax
 Super-similar to C/Java:
