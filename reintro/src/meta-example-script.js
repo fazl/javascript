@@ -4,8 +4,8 @@ var html = document.querySelector('html');//root element ??   <html></html>
 
 info.textContent = 'Below is a dynamic list. Click anywhere outside the list to add a new list item. Click an existing list item to change its text to something else.';
 
-document.body.appendChild(info);                   //will 'view source' reveal changes?
-document.body.appendChild(list);
+document.body.appendChild(info);                   //'view source' does NOT show the <p> and <ul> elements
+document.body.appendChild(list);                   // but 'inspect element' in firefox DOES show them
 
 html.onclick = function() {
   var listItem = document.createElement('li');
