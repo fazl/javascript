@@ -102,3 +102,10 @@ let desc = me.describe(); // 'Fred is 24yrs old'
 ```
     
     
+### Node.js
+Turns out Node is basically like a Java VM for Javascript, runs your javascript for you on a server rather than just in a browser.
+
+- Strength is event-driven single threaded apparently services huge load
+- Weakness is ditto - i.e. don't use it for compute intensive services
+- Good for feeding into queue to update 'eventually consistent' database
+
