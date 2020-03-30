@@ -117,7 +117,7 @@ export function makeStudent(name, age) {
 export var fred = makeStudent('Fred', 24);  
 export let desc = fred.describe(); // 'Fred is 24yrs old'
 ```
-- Or, export a list of names at end of module, in curlies:
+- Or, export a list of names at end of module, in {...}:
 ```
 ...
 export {makeStudent, fred, desc};
