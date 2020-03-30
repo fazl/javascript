@@ -100,6 +100,28 @@ function makeStudent(name, age) {
 var me = makeStudent('Fred', 24);  //no new
 let desc = me.describe(); // 'Fred is 24yrs old'
 ```
+
+## Modules
+Javascript files that export functions, data, classes etc can be used by other code ([MDN Javascript guide][https://wiki.developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#Exporting_module_features]).
+- Decorate _top-level_ artefacts to expose, with *export* keyword:
+```
+export function makeStudent(name, age) {
+  return{
+    name: name,
+    age: age,
+    describe: function() {
+      return this.name + ' is ' + this.age + ' yrs old';
+    }
+  }
+}
+export var fred = makeStudent('Fred', 24);  
+export let desc = fred.describe(); // 'Fred is 24yrs old'
+```
+- Or, export a list of names at end of module, in curlies:
+```
+...
+export {makeStudent, fred, desc};
+```
     
     
 # Node.js
