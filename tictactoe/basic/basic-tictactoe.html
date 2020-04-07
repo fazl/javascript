@@ -1,0 +1,66 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <!-- inline styles take precedence over external -->
+	<style type="text/css">
+	p {
+	  color: blue;
+	}
+  <!-- FAILS
+  button {
+    onClick(row,col)='alert("bah!");'
+  }
+  -->
+	</style>
+  <script>
+  function btClick(row,col){
+    alert("boo! clicked "+row+","+col);
+    this.label = 'X';
+  }
+  </script>
+
+</head>
+
+<body>
+  <!--
+  <script src="js/scripts.js"></script>
+  -->
+  <p>Example of basic html page</p>
+  <p style="color: red">The <code>style</code> attribute can override both inline and external styles, though.</p>
+  <h1>Table example</h1>
+
+  <table>
+      <thead>
+          <tr>
+              <th colspan="2">Tic Tac Toe (header)</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><button onClick=btClick(1,1)>11</button></td>
+              <td><button onClick=btClick(1,1)>12</button></td>
+              <td><button onClick=btClick(1,1)>13</button></td>
+          </tr>
+          <tr>
+              <td><button onClick=btClick(2,1)>21</button></td>
+              <td><button onClick=btClick(2,2)>22</button></td>
+              <td><button onClick=btClick(2,3)>23</button></td>
+          </tr>
+          <tr>
+              <td><button onClick=btClick(3,1)>31</button></td>
+              <td><button onClick=btClick(3,2)>32</button></td>
+              <td><button onClick=btClick(3,3)>33</button></td>
+          </tr>
+      </tbody>
+</table>
+
+</body>
+</html>
