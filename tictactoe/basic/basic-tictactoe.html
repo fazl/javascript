@@ -4,27 +4,46 @@
 <head>
   <meta charset="utf-8">
 
-  <title>The HTML5 Herald</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
+  <title>Basic Tic Tac Toe</title>
+  <meta name="description" content="Basic Tic Tac Toe">
+  <meta name="author" content="Fazl">
 
   <link rel="stylesheet" href="css/styles.css?v=1.0">
   <!-- inline styles take precedence over external -->
-	<style type="text/css">
-	p {
-	  color: blue;
-	}
-  <!-- FAILS
-  button {
-    onClick(row,col)='alert("bah!");'
+  <style type="text/css">
+  p {
+    color: blue;
+    <!-- TODO: set nicer style for buttons -->
   }
-  -->
-	</style>
+  <!-- FAIL: Can't seem to add event handler via styles (fair enough)..
+       button { onClick(row,col)='alert("bah!");'  }  -->
+  </style>
   <script>
-  function btClick(row,col){
-    alert("boo! clicked "+row+","+col);
-    this.label = 'X';
-  }
+    <!-- trick: bitwise not twice to truncate float to int see stackoverflow -->
+    function int(val){ return ~~val; }
+
+    <!-- closure per button, with own row / col value -->
+    function registerButtonClicks(){
+      <!-- caveat1: if run before page loads, no buttons found -->
+      let buttons = document.getElementsByTagName('button');
+      const SIDE = Math.sqrt(buttons.length);
+      for (var i=0 ; i < buttons.length ; i++){
+        (function(btn,row,col){
+          btn.onclick=function(){
+          <!-- In firefox open console with CTRL+SHIFT+K -->
+            console.log("Clicked btn: "+btn.textContent+", row="+row+", col="+col);
+            /*
+            if(){
+              btn.label = 'X';  <-- fool around with label manipulations later :)
+            }
+            */
+          }
+        })(buttons[i], int(1+i/SIDE), int(1+i%SIDE));
+      }
+    }
+
+    <!-- see caveat1 above -->
+    addEventListener("load", registerButtonClicks);
   </script>
 
 </head>
@@ -45,19 +64,19 @@
       </thead>
       <tbody>
           <tr>
-              <td><button onClick=btClick(1,1)>11</button></td>
-              <td><button onClick=btClick(1,1)>12</button></td>
-              <td><button onClick=btClick(1,1)>13</button></td>
+              <td><button >11</button></td>
+              <td><button >12</button></td>
+              <td><button >13</button></td>
           </tr>
           <tr>
-              <td><button onClick=btClick(2,1)>21</button></td>
-              <td><button onClick=btClick(2,2)>22</button></td>
-              <td><button onClick=btClick(2,3)>23</button></td>
+              <td><button >21</button></td>
+              <td><button >22</button></td>
+              <td><button >23</button></td>
           </tr>
           <tr>
-              <td><button onClick=btClick(3,1)>31</button></td>
-              <td><button onClick=btClick(3,2)>32</button></td>
-              <td><button onClick=btClick(3,3)>33</button></td>
+              <td><button >31</button></td>
+              <td><button >32</button></td>
+              <td><button >33</button></td>
           </tr>
       </tbody>
 </table>
