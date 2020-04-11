@@ -32,25 +32,27 @@
       background-color: #32CD32;
       font-size: 20px;
     }
-
   </style>
-  <script>
-    // trick: bitwise-not twice truncates float to int see stackoverflow
-    function int(val){ return ~~val; }
 
+  <script>
     const o = 'O';
     const x = 'X';
     let player=x;
+    let activeButtons=-1;
+
+    // (bitwise-not)x2 truncates float to int see stackoverflow
+    function int(val){ return ~~val; }
 
     function isPlayerX(){ return player === x; }
+    // identify 3-in-a-row of current player
+    function gameOver(){ return false; } //TODO
     function togglePlayer(){ player = isPlayerX() ? o : x; }
-
 
     // closure per button, with own row / col value
     // caveat1: if run before page loads, no buttons found
     //
-    function registerButtonClicks(event){
-      console.log(`registerButtonClicks(event=${event.type})`); //not event.name doh
+    function initGame(event){
+      console.log(`initGame(event=${event.type})`); //not event.name doh
       let buttons = document.getElementsByTagName('button');
       const SIDE = Math.sqrt(buttons.length);
       for (var i=0 ; i < buttons.length ; i++){
@@ -61,6 +63,8 @@
           btn.value = `row=${row}, col=${col}`;
           btn.classList.add('active');
 
+          // onclick handles game logic
+          //
           btn.onclick=function(){
             togglePlayer();
             // In firefox open console with CTRL+SHIFT+K
@@ -70,14 +74,27 @@
             btn.onclick=null;
             btn.classList.add('locked');
             btn.classList.remove('active');
+
+            activeButtons--;
+            if( gameOver() ){
+              console.log(`Player ${player} wins!`);
+              alert(`..you win..`);
+              // lock all remaining tiles
+            }
+            else if( 0==activeButtons ){
+              console.log(`Nobody wins!`);
+              alert(`..you lose..`);
+              // lock all remaining tiles
+            }
           };
 
         })(buttons[i], int(1+i/SIDE), int(1+i%SIDE));
+        activeButtons= buttons.length;
       }
     }
 
-    <!--  see caveat1 above; load event fires after images are loaded;  -->
-    addEventListener("DOMContentLoaded", registerButtonClicks);
+    // see caveat1 above; 'load' would delay till images loaded
+    addEventListener("DOMContentLoaded", initGame);
   </script>
 
 </head>
