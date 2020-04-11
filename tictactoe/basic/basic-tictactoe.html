@@ -11,19 +11,27 @@
   <link rel="stylesheet" href="css/styles.css?v=1.0">
   <!-- inline styles take precedence over external -->
   <style type="text/css">
-  p {
-    color: blue;
-    <!-- TODO: set nicer style for buttons -->
-  }
-  <!-- FAIL: Can't seem to add event handler via styles (fair enough)..
-       button { onClick(row,col)='alert("bah!");'  }  -->
+    p {
+      color: blue;
+      <!-- TODO: set nicer style for buttons -->
+    }
+    <!-- FAIL: Can't seem to add event handler via styles (fair enough)..
+         button { onClick(row,col)='alert("bah!");'  }  -->
+    button {
+      margin : 0 0;
+      color : green;
+    }
+    button:hover {
+      color : orange;
+    }
+
   </style>
   <script>
     <!-- trick: bitwise not twice to truncate float to int see stackoverflow -->
     function int(val){ return ~~val; }
 
     <!-- closure per button, with own row / col value -->
-    function registerButtonClicks(){
+    function registerButtonClicks(event){
       <!-- caveat1: if run before page loads, no buttons found -->
       let buttons = document.getElementsByTagName('button');
       const SIDE = Math.sqrt(buttons.length);
@@ -42,8 +50,8 @@
       }
     }
 
-    <!-- see caveat1 above -->
-    addEventListener("load", registerButtonClicks);
+    <!--  see caveat1 above; load event fires after images are loaded;  -->
+    addEventListener("DOMContentLoaded", registerButtonClicks);
   </script>
 
 </head>
@@ -64,19 +72,19 @@
       </thead>
       <tbody>
           <tr>
-              <td><button >11</button></td>
-              <td><button >12</button></td>
-              <td><button >13</button></td>
+              <td><button>11</button></td>
+              <td><button>12</button></td>
+              <td><button>13</button></td>
           </tr>
           <tr>
-              <td><button >21</button></td>
-              <td><button >22</button></td>
-              <td><button >23</button></td>
+              <td><button>21</button></td>
+              <td><button>22</button></td>
+              <td><button>23</button></td>
           </tr>
           <tr>
-              <td><button >31</button></td>
-              <td><button >32</button></td>
-              <td><button >33</button></td>
+              <td><button>31</button></td>
+              <td><button>32</button></td>
+              <td><button>33</button></td>
           </tr>
       </tbody>
 </table>
