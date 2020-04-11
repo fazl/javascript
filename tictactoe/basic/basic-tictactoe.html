@@ -9,6 +9,7 @@
   <meta name="author" content="Fazl">
 
   <link rel="stylesheet" href="css/styles.css?v=1.0">
+
   <!-- inline styles take precedence over external -->
   <style type="text/css">
     button{
@@ -39,21 +40,57 @@
     const x = 'X';
     let player=x;
     let activeButtons=-1;
+    const winConfigs = [
+      [0,1,2],//horiz
+      [3,4,5],//horiz
+      [6,7,8],//horiz
+      [0,3,6],//vert
+      [1,4,7],//vert
+      [2,5,8],//vert
+      [0,4,8],//diag
+      [2,4,6] //diag
+    ];
 
     // (bitwise-not)x2 truncates float to int see stackoverflow
     function int(val){ return ~~val; }
 
     function isPlayerX(){ return player === x; }
     // identify 3-in-a-row of current player
-    function gameOver(){ return false; } //TODO
     function togglePlayer(){ player = isPlayerX() ? o : x; }
+    // receives O or X in clicker, must decide if is winner
+    //
+    // sledgehammer: just go thru all possible winner configs
+    // checking if winner matches one of them
+    //
+    function winsGame(clicker){
+      let buttons = document.getElementsByTagName('button');
+      for(let c = 0; c<winConfigs.length; c++){
+        const w = winConfigs[c];
+        // console.log(`Check if '${clicker}' matches winConfig ${w}`);
+
+        if( // TODO is there a cleaner way to test this?
+          buttons[w[0]].textContent === clicker &&
+          buttons[w[1]].textContent === clicker &&
+          buttons[w[2]].textContent === clicker 
+        ){ 
+          console.log(`Win, matches winConfig ${w}`);
+          return true; 
+        }
+
+      }
+
+      console.log(`No win..`);
+      return false; 
+
+    }
 
     // closure per button, with own row / col value
-    // caveat1: if run before page loads, no buttons found
+    //
+    // caveat1: getElementsByTagName() before page loads, finds no buttons 
     //
     function initGame(event){
       console.log(`initGame(event=${event.type})`); //not event.name doh
-      let buttons = document.getElementsByTagName('button');
+      const buttons = document.getElementsByTagName('button');
       const SIDE = Math.sqrt(buttons.length);
       for (var i=0 ; i < buttons.length ; i++){
         (function(btn,row,col){
@@ -71,20 +108,18 @@
             console.log(`Player ${player} clicked: ${btn.value}`);
             btn.textContent = isPlayerX() ? x : o;
             // Lock button down after it is taken
-            btn.onclick=null;
-            btn.classList.add('locked');
-            btn.classList.remove('active');
+            lockButton(btn);
 
             activeButtons--;
-            if( gameOver() ){
+            if( winsGame(player) ){
               console.log(`Player ${player} wins!`);
               alert(`..you win..`);
-              // lock all remaining tiles
+              lockAllButtons(); 
             }
             else if( 0==activeButtons ){
               console.log(`Nobody wins!`);
               alert(`..you lose..`);
-              // lock all remaining tiles
+              lockAllButtons(); 
             }
           };
 
@@ -93,6 +128,20 @@
       }
     }
 
+    function lockButton(btn){
+      btn.onclick=null;
+      btn.classList.remove('active');
+      btn.classList.add('locked');
+    }
+
+    function lockAllButtons(){
+
+      const buttons = document.getElementsByTagName('button');
+
+      for( let i = 0; i<buttons.length; i++){
+        lockButton(buttons[i]);
+      }
+    }
     // see caveat1 above; 'load' would delay till images loaded
     addEventListener("DOMContentLoaded", initGame);
   </script>
