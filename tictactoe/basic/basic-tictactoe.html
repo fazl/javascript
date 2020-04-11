@@ -11,18 +11,22 @@
   <link rel="stylesheet" href="css/styles.css?v=1.0">
   <!-- inline styles take precedence over external -->
   <style type="text/css">
-    p {
-      color: blue;
-      <!-- TODO: set nicer style for buttons -->
-    }
     <!-- FAIL: Can't seem to add event handler via styles (fair enough)..
          button { onClick(row,col)='alert("bah!");'  }  -->
-    button {
-      margin : 0 0;
-      color : green;
+    button{
+      background-color: #2a609a;
+      width: 130px;
+      height: 130px;
+      color: white;
+      outline: none;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
     }
-    button:hover {
-      color : orange;
+    button:hover{
+      background-color: #32CD32;
+      font-size: 20px;
+      transition: 0.5s;
     }
 
   </style>
