@@ -11,45 +11,67 @@
   <link rel="stylesheet" href="css/styles.css?v=1.0">
   <!-- inline styles take precedence over external -->
   <style type="text/css">
-    <!-- FAIL: Can't seem to add event handler via styles (fair enough)..
-         button { onClick(row,col)='alert("bah!");'  }  -->
     button{
-      background-color: #2a609a;
       width: 130px;
       height: 130px;
-      color: white;
       outline: none;
-      font-size: 16px;
       border: none;
+    }
+    button.active{
+      background-color: #2a609a;
+      color: white;
+      font-size: 16px;
       cursor: pointer;
     }
-    button:hover{
+    button.active:hover{
       background-color: #32CD32;
       font-size: 20px;
       transition: 0.5s;
     }
+    button.locked{
+      background-color: #32CD32;
+      font-size: 20px;
+    }
 
   </style>
   <script>
-    <!-- trick: bitwise not twice to truncate float to int see stackoverflow -->
+    // trick: bitwise-not twice truncates float to int see stackoverflow
     function int(val){ return ~~val; }
 
-    <!-- closure per button, with own row / col value -->
+    const o = 'O';
+    const x = 'X';
+    let player=x;
+
+    function isPlayerX(){ return player === x; }
+    function togglePlayer(){ player = isPlayerX() ? o : x; }
+
+
+    // closure per button, with own row / col value
+    // caveat1: if run before page loads, no buttons found
+    //
     function registerButtonClicks(event){
-      <!-- caveat1: if run before page loads, no buttons found -->
+      console.log(`registerButtonClicks(event=${event.type})`); //not event.name doh
       let buttons = document.getElementsByTagName('button');
       const SIDE = Math.sqrt(buttons.length);
       for (var i=0 ; i < buttons.length ; i++){
         (function(btn,row,col){
+
+          btn.row = row;
+          btn.col = col;
+          btn.value = `row=${row}, col=${col}`;
+          btn.classList.add('active');
+
           btn.onclick=function(){
-          <!-- In firefox open console with CTRL+SHIFT+K -->
-            console.log("Clicked btn: "+btn.textContent+", row="+row+", col="+col);
-            /*
-            if(){
-              btn.label = 'X';  <-- fool around with label manipulations later :)
-            }
-            */
-          }
+            togglePlayer();
+            // In firefox open console with CTRL+SHIFT+K
+            console.log(`Player ${player} clicked: ${btn.value}`);
+            btn.textContent = isPlayerX() ? x : o;
+            // Lock button down after it is taken
+            btn.onclick=null;
+            btn.classList.add('locked');
+            btn.classList.remove('active');
+          };
+
         })(buttons[i], int(1+i/SIDE), int(1+i%SIDE));
       }
     }
