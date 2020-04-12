@@ -40,35 +40,45 @@
     const o = 'O';
     const x = 'X';
     let player=x;
-    let activeButtons=-1;
+    let activeButtons = -1;
     const straightLines = [
       [0,1,2], [3,4,5],[6,7,8],//horiz
       [0,3,6], [1,4,7],[2,5,8],//vert
       [0,4,8], [2,4,6] //diagonals
     ];
+    let displayPlayer = null;
 
     // (bitwise-not)x2 truncates float to int see stackoverflow
     function int(val){ return ~~val; }
 
     function isPlayerX(){ return player === x; }
-    // identify 3-in-a-row of current player
-    function togglePlayer(){ player = isPlayerX() ? o : x; }
+
+    function playerOccupiesLine(clicker,btnLine){
+      return btnLine.every( (b) => b.textContent === clicker );
+    }
+
+    function togglePlayer(){
+      let opponent = player;
+      player = isPlayerX() ? o : x;
+      displayPlayer.innerText = `Player: ${opponent}`;
+    }
+
     // receives O or X in clicker, must decide if is winner
     //
     // sledgehammer: just go thru all straight lines
     // checking if winner fully populates one of them
     //
-    function winsGame(clicker){
+    function checkGameWon(clicker){
       const buttons = document.getElementsByTagName('button');
       for(let c = 0; c<straightLines.length; c++){
         const L = straightLines[c];
         const btnLine = [ buttons[L[0]], buttons[L[1]], buttons[L[2]] ];
-        // console.log(`Check if '${clicker}' occupies line  ${L}`);
 
-        if( btnLine.every((b) => b.textContent === clicker) ){
-          console.log(`Win, occupies line ${L}`);
-
+        if( playerOccupiesLine(clicker,btnLine) ){
+          console.log(`Win: ${player} occupies line ${L}`);
           btnLine.forEach((btn) => btn.classList.add('winner') );// 'foreach' fails
+          displayPlayer.innerText = `${player} wins`;
+          lockBlankButtons();
 
           return true;
         }
@@ -76,7 +86,6 @@
 
       console.log(`No win..`);
       return false;
-
     }
 
     // closure per button, with own row / col value
@@ -105,20 +114,16 @@
             // Lock button down after it is taken
             lockButton(btn);
 
-            activeButtons--;
-            if( winsGame(player) ){
-              console.log(`Player ${player} wins!`);
-              alert(`${player}''s win`);
-              lockBlankButtons();
-            }
-            else if( 0==activeButtons ){
-              console.log(`Nobody wins!`);
-              alert(`..you lose..`);
+            if( !checkGameWon(player) && 0 == --activeButtons ){
+              console.log(`Game over - draw`);
+              displayPlayer.innerText = `* Draw *`;
             }
           };
 
         })(buttons[i], int(1+i/SIDE), int(1+i%SIDE));
+
         activeButtons = buttons.length;
+        displayPlayer = document.getElementById('player');
       }
     }
 
@@ -156,10 +161,14 @@
     <thead>
       <tr>
         <!-- colspan essential else column of whitespace inserts -->
-        <th colspan="3"> <h1>Basic Tic Tac Toe</h1> </th>
+        <th colspan="3"> <h1>Tic Tac Toe</h1> </th>
       </tr>
       <tr>
-        <th colspan="3">Using simple HTML, CSS + Javascript</th>
+        <th colspan="3">Simply HTML + CSS + Javascript</th>
+      </tr>
+      <tr>
+        <th colspan="1"></th>
+        <th ID="player" colspan="1">Player: O</th>
       </tr>
     </thead>
     <tbody>
