@@ -110,7 +110,7 @@
             activeButtons--;
             if( winsGame(player) ){
               console.log(`Player ${player} wins!`);
-              alert(`..you win..`);
+              alert(`${player}'s win`);
               lockAllButtons();
             }
             else if( 0==activeButtons ){
@@ -148,32 +148,29 @@
 <body>
   <!--
   <script src="js/scripts.js"></script>
-  -->
   <p>Example of basic html page</p>
   <p style="color: red">The <code>style</code> attribute can override both inline and external styles, though.</p>
-  <h1>Table example</h1>
+  -->
 
   <table>
     <thead>
       <tr>
-        <th colspan="2">Tic Tac Toe (header)</th>
+        <!-- colspan essential else column of whitespace inserts -->
+        <th colspan="3"> <h1>Basic Tic Tac Toe</h1> </th>
+      </tr>
+      <tr>
+        <th colspan="3">Using simple HTML, CSS + Javascript</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><button>11</button></td>
-        <td><button>12</button></td>
-        <td><button>13</button></td>
+        <td><button/></td> <td><button/></td> <td><button/></td>
       </tr>
       <tr>
-        <td><button>21</button></td>
-        <td><button>22</button></td>
-        <td><button>23</button></td>
+        <td><button/></td> <td><button/></td> <td><button/></td>
       </tr>
       <tr>
-        <td><button>31</button></td>
-        <td><button>32</button></td>
-        <td><button>33</button></td>
+        <td><button/></td> <td><button/></td> <td><button/></td>
       </tr>
     </tbody>
   </table>
