@@ -40,15 +40,10 @@
     const x = 'X';
     let player=x;
     let activeButtons=-1;
-    const winConfigs = [
-      [0,1,2],//horiz
-      [3,4,5],//horiz
-      [6,7,8],//horiz
-      [0,3,6],//vert
-      [1,4,7],//vert
-      [2,5,8],//vert
-      [0,4,8],//diag
-      [2,4,6] //diag
+    const straightLines = [
+      [0,1,2], [3,4,5],[6,7,8],//horiz
+      [0,3,6], [1,4,7],[2,5,8],//vert
+      [0,4,8], [2,4,6] //diagonals
     ];
 
     // (bitwise-not)x2 truncates float to int see stackoverflow
@@ -59,21 +54,21 @@
     function togglePlayer(){ player = isPlayerX() ? o : x; }
     // receives O or X in clicker, must decide if is winner
     //
-    // sledgehammer: just go thru all possible winner configs
-    // checking if winner matches one of them
+    // sledgehammer: just go thru all straight lines
+    // checking if winner fully populates one of them
     //
     function winsGame(clicker){
       let buttons = document.getElementsByTagName('button');
-      for(let c = 0; c<winConfigs.length; c++){
-        const w = winConfigs[c];
-        // console.log(`Check if '${clicker}' matches winConfig ${w}`);
+      for(let c = 0; c<straightLines.length; c++){
+        const L = straightLines[c];
+        // console.log(`Check if '${clicker}' occupies line  ${L}`);
 
         if( // TODO is there a cleaner way to test this?
-          buttons[w[0]].textContent === clicker &&
-          buttons[w[1]].textContent === clicker &&
-          buttons[w[2]].textContent === clicker 
+          buttons[L[0]].textContent === clicker &&
+          buttons[L[1]].textContent === clicker &&
+          buttons[L[2]].textContent === clicker 
         ){ 
-          console.log(`Win, matches winConfig ${w}`);
+          console.log(`Win, occupies line ${L}`);
           return true; 
         }
 
