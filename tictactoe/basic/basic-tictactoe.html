@@ -61,21 +61,17 @@
     // checking if winner fully populates one of them
     //
     function winsGame(clicker){
-      let buttons = document.getElementsByTagName('button');
+      const buttons = document.getElementsByTagName('button');
       for(let c = 0; c<straightLines.length; c++){
         const L = straightLines[c];
+        const btnLine = [ buttons[L[0]], buttons[L[1]], buttons[L[2]] ];
         // console.log(`Check if '${clicker}' occupies line  ${L}`);
 
-        if( // TODO is there a cleaner way to test this?
-          buttons[L[0]].textContent === clicker &&
-          buttons[L[1]].textContent === clicker &&
-          buttons[L[2]].textContent === clicker
-        ){
+        if( btnLine.every((b) => b.textContent === clicker) ){
           console.log(`Win, occupies line ${L}`);
 
-          buttons[L[0]].classList.add('winner');
-          buttons[L[1]].classList.add('winner');
-          buttons[L[2]].classList.add('winner');
+          btnLine.forEach((btn) => btn.classList.add('winner') );// 'foreach' fails
+
           return true;
         }
       }
