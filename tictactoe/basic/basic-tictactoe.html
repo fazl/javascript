@@ -17,14 +17,12 @@
       height: 130px;
       outline: none;
       border: none;
-    }
-    button.active{
       background-color: #2a609a;
       color: white;
       font-size: 16px;
-      cursor: pointer;
     }
     button.active:hover{
+      cursor: pointer;
       background-color: #32CD32;
       font-size: 20px;
       transition: 0.5s;
@@ -110,19 +108,29 @@
             activeButtons--;
             if( winsGame(player) ){
               console.log(`Player ${player} wins!`);
-              alert(`${player}'s win`);
-              lockAllButtons();
+              alert(`${player}''s win`);
+              lockBlankButtons();
             }
             else if( 0==activeButtons ){
               console.log(`Nobody wins!`);
               alert(`..you lose..`);
-              lockAllButtons();
             }
           };
 
         })(buttons[i], int(1+i/SIDE), int(1+i%SIDE));
-        activeButtons= buttons.length;
+        activeButtons = buttons.length;
       }
+    }
+
+    function lockBlankButtons(){
+      [].slice.call( // HTMLCollection -> array
+        document.getElementsByTagName('button')
+      ).forEach( (btn) => {
+        if(btn.textContent == ''){
+          btn.onclick=null;
+          btn.classList.remove('active');
+        }
+      });
     }
 
     function lockButton(btn){
@@ -131,14 +139,6 @@
       btn.classList.add('locked');
     }
 
-    function lockAllButtons(){
-
-      const buttons = document.getElementsByTagName('button');
-
-      for( let i = 0; i<buttons.length; i++){
-        lockButton(buttons[i]);
-      }
-    }
     // see caveat1 above; 'load' would delay till images loaded
     addEventListener("DOMContentLoaded", initGame);
   </script>
