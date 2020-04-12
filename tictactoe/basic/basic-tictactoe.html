@@ -34,6 +34,9 @@
     button.winner{
       border: 6px solid crimson;
     }
+    table {
+        margin:0 auto;
+    }
   </style>
 
   <script>
@@ -78,7 +81,7 @@
           console.log(`Win: ${player} occupies line ${L}`);
           btnLine.forEach((btn) => btn.classList.add('winner') );// 'foreach' fails
           displayPlayer.innerText = `${player} wins`;
-          lockBlankButtons();
+          deactivateBlankButtons();
 
           return true;
         }
@@ -127,7 +130,7 @@
       }
     }
 
-    function lockBlankButtons(){
+    function deactivateBlankButtons(){
       [].slice.call( // HTMLCollection -> array
         document.getElementsByTagName('button')
       ).forEach( (btn) => {
