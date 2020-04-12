@@ -33,6 +33,9 @@
       background-color: #32CD32;
       font-size: 20px;
     }
+    button.winner{
+      border: 6px solid crimson;
+    }
   </style>
 
   <script>
@@ -66,22 +69,25 @@
         if( // TODO is there a cleaner way to test this?
           buttons[L[0]].textContent === clicker &&
           buttons[L[1]].textContent === clicker &&
-          buttons[L[2]].textContent === clicker 
-        ){ 
+          buttons[L[2]].textContent === clicker
+        ){
           console.log(`Win, occupies line ${L}`);
-          return true; 
-        }
 
+          buttons[L[0]].classList.add('winner');
+          buttons[L[1]].classList.add('winner');
+          buttons[L[2]].classList.add('winner');
+          return true;
+        }
       }
 
       console.log(`No win..`);
-      return false; 
+      return false;
 
     }
 
     // closure per button, with own row / col value
     //
-    // caveat1: getElementsByTagName() before page loads, finds no buttons 
+    // caveat1: getElementsByTagName() before page loads, finds no buttons
     //
     function initGame(event){
       console.log(`initGame(event=${event.type})`); //not event.name doh
@@ -109,12 +115,12 @@
             if( winsGame(player) ){
               console.log(`Player ${player} wins!`);
               alert(`..you win..`);
-              lockAllButtons(); 
+              lockAllButtons();
             }
             else if( 0==activeButtons ){
               console.log(`Nobody wins!`);
               alert(`..you lose..`);
-              lockAllButtons(); 
+              lockAllButtons();
             }
           };
 
