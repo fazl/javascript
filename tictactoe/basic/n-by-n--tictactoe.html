@@ -100,6 +100,20 @@
       //first get the size
       const size = document.getElementById("id-game-size").value;
       console.log(`genGameTable() new size: ${size}`);
+      //walk existing cells
+      const body = document.getElementById("game-table-body");
+      const rows = body.children
+      for(let r = 0; r<rows.length; ++r){
+        let row=rows[r];
+        console.log(`row ${r} : ${row}`);
+        let tds=row.children;
+        for(let d = 0; d<tds.length; ++d){
+          let td=tds[d];
+          //td.firstChild is contained button
+          console.log(`\telem ${d} : ${td} value: ${td.firstChild.value}`);
+        }
+      }
+
       // TODO: clear existing table body:
 
       // TODO: build a new body with size rows, size button per row
