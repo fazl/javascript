@@ -5,4 +5,6 @@
     - [x] Easier: just apply a different style to the three tiles.
 - [ ] 13/4/2020 evolve tictactoe into 'tile puzzle'
     - [ ] Generalise from 3x3 to NxN
-        - [ ] Must dynamically build table on some button click..
+        - [x] Must dynamically build table on some button click..
+        - [ ] Must attach click handler closure to each new button..
+        
