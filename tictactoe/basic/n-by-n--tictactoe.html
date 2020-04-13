@@ -91,6 +91,21 @@
       return false;
     }
 
+    // Want to waste 15mins scratching your head? Just
+    // omit the brackets in the HTML element registering
+    // the click handler thus: onclick="genGameTable"
+    // It's a lot of fun...
+    //
+    function genGameTable(){
+      //first get the size
+      const size = document.getElementById("id-game-size").value;
+      console.log(`genGameTable() new size: ${size}`);
+      // TODO: clear existing table body:
+
+      // TODO: build a new body with size rows, size button per row
+
+    }
+
     // closure per button, with own row / col value
     //
     // caveat1: getElementsByTagName() before page loads, finds no buttons
@@ -163,18 +178,22 @@
   <table>
     <thead>
       <tr>
-        <!-- colspan essential else column of whitespace inserts -->
         <th colspan="3"> <h1>Tic Tac Toe</h1> </th>
       </tr>
       <tr>
-        <th colspan="3">Simply HTML + CSS + Javascript</th>
-      </tr>
-      <tr>
-        <th colspan="1"></th>
-        <th ID="player" colspan="1">Player: O</th>
+        <th colspan="1" align="right"><label for="id-game-size">Size (2-32):</label></th>
+        <th colspan="1"><input id="id-game-size" min="2" value="3" type="number" onclick="genGameTable()"></th>
       </tr>
     </thead>
-    <tbody>
+  </table>
+
+  <table id="game-table">
+    <thead>
+      <tr>
+        <th ID="player" colspan="1" align="left">Player: O</th>
+      </tr>
+    </thead>
+    <tbody id="game-table-body">
       <tr>
         <td><button/></td> <td><button/></td> <td><button/></td>
       </tr>
