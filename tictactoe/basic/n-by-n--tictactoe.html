@@ -102,7 +102,7 @@
       console.log(`genGameTable() new size: ${size}`);
       //walk existing cells
       const body = document.getElementById("game-table-body");
-      const rows = body.children
+      const rows = body.children;
       for(let r = 0; r<rows.length; ++r){
         let row=rows[r];
         console.log(`row ${r} : ${row}`);
@@ -115,6 +115,10 @@
       }
 
       // TODO: clear existing table body:
+      for(let r=rows.length; r>0; --r){
+        console.log(`Remove row ${r} from body`);
+        body.removeChild(rows[r-1]);
+      }
 
       // TODO: build a new body with size rows, size button per row
 
