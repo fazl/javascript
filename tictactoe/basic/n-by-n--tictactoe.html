@@ -96,11 +96,10 @@
     // the click handler thus: onclick="genGameTable"
     // It's a lot of fun...
     //
-    function genGameTable(){
+    function genGameTable(event){
       //first get the size
       const size = document.getElementById("id-game-size").value;
       console.log(`genGameTable() new size: ${size}`);
-      //walk existing cells
       const body = document.getElementById("game-table-body");
       const rows = body.children;
       for(let r = 0; r<rows.length; ++r){
@@ -114,13 +113,14 @@
         }
       }
 
-      // TODO: clear existing table body:
+
+      // clear existing table body
       for(let r=rows.length; r>0; --r){
-        console.log(`Remove row ${r} from body`);
+        console.debug(`Remove row ${r} from body`);
         body.removeChild(rows[r-1]);
       }
 
-      // TODO: add new rows, `size` buttons per row
+      // repopulate with size x size grid
       for(let r = 0; r<size; ++r){
         let row=document.createElement("tr");;
         console.log(`New row ${r} : ${row}`);
@@ -136,6 +136,7 @@
         body.append(row);
       }
 
+      initGame(event);
 
     }
 
@@ -215,7 +216,8 @@
       </tr>
       <tr>
         <th colspan="1" align="right"><label for="id-game-size">Size (2-32):</label></th>
-        <th colspan="1"><input id="id-game-size" min="2" value="3" type="number" onclick="genGameTable()"></th>
+        <th colspan="1"><input id="id-game-size" min="2" value="3" type="number" onclick="genGameTable(event)"></th>
+        <!-- NB Need 'event' in genGameTable call (else exception if called fn accesses event!) -->
       </tr>
     </thead>
   </table>
