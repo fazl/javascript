@@ -44,7 +44,7 @@
     const x = 'X';
     let player=x;
     let activeButtons = -1;
-    const straightLines = [
+    let straightLines = [
       [0,1,2], [3,4,5],[6,7,8],//horiz
       [0,3,6], [1,4,7],[2,5,8],//vert
       [0,4,8], [2,4,6] //diagonals
@@ -73,9 +73,10 @@
     //
     function checkGameWon(clicker){
       const buttons = document.getElementsByTagName('button');
-      for(let c = 0; c<straightLines.length; c++){
-        const L = straightLines[c];
-        const btnLine = [ buttons[L[0]], buttons[L[1]], buttons[L[2]] ];
+      for(let i = 0; i<straightLines.length; i++){
+
+        let btnLine = [];
+        straightLines[i].forEach( index => btnLine.push(buttons[index]) );
 
         if( playerOccupiesLine(clicker,btnLine) ){
           console.log(`Win: ${player} occupies line ${L}`);
@@ -136,9 +137,39 @@
         body.append(row);
       }
 
+      straightLines = genStraightLines(size);
       initGame(event);
+    }
+
+    // Build array of indices for all straight lines in grid
+    // 
+    function genStraightLines(size){
+
+      let lineArray = []; 
+                               
+      // horizontals
+      
+      for( let r = 0; r < size; ++r){
+        
+        // horizontal straight line is a whole row, e.g.
+        // indices: 0, 1, 2..,  , or
+        // indices: size, size+1, ...
+        //
+        var row = [];
+        for( let c = 0; c<size; ++c){
+          row.push( size*r + c );
+        }
+        lineArray.push(row);
+      }
+      // TODO verticals
+
+      // TODO diags
+
+      return lineArray;
 
     }
+
+
 
     // closure per button, with own row / col value
     //
