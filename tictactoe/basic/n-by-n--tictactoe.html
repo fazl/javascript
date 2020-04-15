@@ -168,28 +168,55 @@
 
       let lineArray = [];
 
-      // horizontals
-
+      // add rows (horizontal lines)
+      //
       for( let r = 0; r < size; ++r){
 
-        // horizontal straight line is a whole row, e.g.
-        // indices: 0, 1, 2..,  , or
-        // indices: size, size+1, ...
-        //
         var row = [];
         for( let c = 0; c<size; ++c){
-          row.push( size*r + c );
+          row.push( xysize2index(c,r,size) );
         }
         lineArray.push(row);
       }
-      // TODO verticals
 
-      // TODO diags
+      // add columns (vertical lines)
+      //
+      for( let c = 0; c < size; ++c){
+
+        var col = [];
+        for( let r = 0; r<size; ++r){
+          col.push( xysize2index(c,r,size) );
+        }
+        lineArray.push(col);
+      }
+
+      // add 2 diagonals
+      //
+      let fromTopLeft = [];
+      let fromTopRight = [];
+
+      for( let r = 0; r<size; ++r){
+        fromTopLeft.push( xysize2index(r,r,size) );
+        fromTopRight.push( xysize2index(size-r-1,r,size) );
+      }
+      lineArray.push(fromTopLeft);
+      lineArray.push(fromTopRight);
+
+//    xysize2index(-1,1,2); test the validation
 
       return lineArray;
-
     }
 
+    // index of cell in grid
+    function xysize2index(x,y,size){
+      if( 0<size &&
+          (0<=x && x<size) &&
+          (0<=y && y<size) ){
+
+          return (y*size)+x;
+      }
+      throw `Bad x,y,size combo ${x},${y},${size}`;
+    }
 
 
     // closure per button, with own row / col value
