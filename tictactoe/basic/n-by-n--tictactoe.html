@@ -37,6 +37,14 @@
     table {
         margin:0 auto;
     }
+    blink {
+        animation: blink 1s steps(1) infinite;
+        -webkit-animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink { 50% { color: transparent; } }
+    @-webkit-keyframes blink { 50% { color: transparent; }
+    }
+
   </style>
 
   <script>
@@ -102,7 +110,9 @@
         if( playerOccupiesLine(clicker,btnLine) ){
           console.log(`Win: ${player} occupies line ${straightLines[i]}`);
           btnLine.forEach((btn) => btn.classList.add('winner') );// 'foreach' fails
-          displayPlayer.innerText = `${player} wins`;
+
+          winOrDrawBlinker(displayPlayer, player);
+
           deactivateBlankButtons();
 
           return true;
@@ -111,6 +121,15 @@
 
       console.log(`No win..`);
       return false;
+    }
+
+    function winOrDrawBlinker(cont, winner){
+      const bink = document.createElement('blink');
+      bink.innerText = (winner == 'draw' )
+                     ? `Draw`
+                     : `${winner} wins`;
+      cont.innerText = ``;
+      cont.append(bink);
     }
 
     // Want to waste 15mins scratching your head? Just
@@ -247,14 +266,16 @@
 
             if( !checkGameWon(player) && 0 == --activeButtons ){
               console.log(`Game over - draw`);
-              displayPlayer.innerText = `* Draw *`;
+              winOrDrawBlinker(displayPlayer,'draw');
             }
           };
 
         })(buttons[i], int(1+i/SIDE), int(1+i%SIDE));
 
         activeButtons = buttons.length;
+
         displayPlayer = document.getElementById('displayPlayer');
+        togglePlayer();
       }
     }
 
@@ -308,6 +329,7 @@
       </tr>
     </thead>
     <tbody id="game-table-body">
+      <!-- tbody rebuilt at runtime -->
       <tr>
         <td><button/></td> <td><button/></td> <td><button/></td>
       </tr>
