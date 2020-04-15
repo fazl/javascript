@@ -40,12 +40,12 @@
   </style>
 
   <script>
-    // global exception handler 
+    // global exception handler
     // see https://stackoverflow.com/a/10556743/7409029
     //
     window.onerror = function(msg, url, line, col, error) {
-       // Note col & error new to HTML 5 
-       // may not be supported in all browsers.  
+       // Note col & error new to HTML 5
+       // may not be supported in all browsers.
        var extra = !col ? '' : '\ncolumn: ' + col;
        extra += !error ? '' : '\nerror: ' + error;
 
@@ -56,7 +56,7 @@
        //       of what pages have JS issues
 
        var suppressErrorAlert = false;
-       // If you return true, then error alerts (like in older versions of 
+       // If you return true, then error alerts (like in older versions of
        // Internet Explorer) will be suppressed.
        return suppressErrorAlert;
     };
@@ -163,15 +163,15 @@
     }
 
     // Build array of indices for all straight lines in grid
-    // 
+    //
     function genStraightLines(size){
 
-      let lineArray = []; 
-                               
+      let lineArray = [];
+
       // horizontals
-      
+
       for( let r = 0; r < size; ++r){
-        
+
         // horizontal straight line is a whole row, e.g.
         // indices: 0, 1, 2..,  , or
         // indices: size, size+1, ...
@@ -227,7 +227,7 @@
         })(buttons[i], int(1+i/SIDE), int(1+i%SIDE));
 
         activeButtons = buttons.length;
-        displayPlayer = document.getElementById('player');
+        displayPlayer = document.getElementById('displayPlayer');
       }
     }
 
@@ -277,7 +277,7 @@
   <table id="game-table">
     <thead>
       <tr>
-        <th ID="player" colspan="1" align="left">Player: O</th>
+        <th ID="displayPlayer" colspan="1" align="left">Player: O</th>
       </tr>
     </thead>
     <tbody id="game-table-body">
