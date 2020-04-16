@@ -14,4 +14,4 @@ Wow, and git diff --word-diff=color removes the need for side by side, plus is f
         - [x] Must attach click handler closure to each new button..
         - [x] Also recalculate winning line configs on resize
 - [ ] 15/4/2020 Convert to a Sliding Tile Puzzle         
-- [ ] 16/4/2020 Idea: change style on winning line, with transition to new colour ?
+- [x] 16/4/2020 (almost too easy!) Idea: change style on winning line, with transition to new colour ?
