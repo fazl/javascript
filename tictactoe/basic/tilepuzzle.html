@@ -18,8 +18,8 @@
       outline: none;
       border: none;
       background-color: lightblue;
-      color: white;
-      font-size: 16px;
+      color: black;
+      font-size: 30px;
     }
     button.hole{
       background-color: black;
@@ -28,7 +28,7 @@
     button.active:hover{
       cursor: pointer;
       background-color: green;
-      font-size: 20px;
+      font-size: 50px;
       transition: 0.5s;
     }
     button.locked{
@@ -255,6 +255,7 @@
           btn.idx = i;
           btn.value = `row=${row}, col=${col}`;
           btn.classList.add((0<i) ? 'active' : 'hole');
+          btn.textContent = i;
 
           // onclick handles game logic
           //
@@ -262,7 +263,6 @@
             togglePlayer();
             // In firefox open console with CTRL+SHIFT+K
             console.log(`Player ${player} clicked: ${btn.value}`);
-            btn.textContent = isPlayerX() ? x : o;
             // Lock button down after it is taken
             lockButton(btn);
 
