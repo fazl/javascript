@@ -188,6 +188,9 @@
             let holeIndex = findHoleIndex(buttons);
             let canMove = isNeighbour(btn.idx, holeIndex, SIDE);
             console.debug(`Tile ${btn.idx} ${canMove?'IS':'NOT'} next to hole`);
+            if( canMove ){
+              swapTileProperties(btn,buttons[holeIndex]);
+            }
 
             // In firefox console opens with CTRL+SHIFT+K
             console.log(`Player clicked tile ${btn.idx} at ${btn.value}`);
@@ -203,6 +206,7 @@
       }
     }
 
+    // Walk buttons, return index of button with hole class
     function findHoleIndex(arrBtns){
       let i;
       for( i = 0; i<arrBtns.length; ++i){
@@ -249,6 +253,23 @@
       return idx%SIDE;
     }
 
+    // Rather not walk table body, do td.append(btn) at destinations..
+    //
+    // Simpler to morph btn into a hole, and vice versa??
+    function swapTileProperties(btn,hole){
+        hole.classList.remove('hole');
+        hole.classList.add('active');
+        btn.classList.remove('active');
+        btn.classList.add('hole');
+
+        let tmp = ""+btn.value;
+        btn.value=hole.value;
+        hole.value=tmp;
+
+        tmp = btn.textContent;
+        btn.textContent = hole.textContent;
+        hole.textContent = tmp;
+    }
     function deactivateButtons(){
       [].slice.call( // HTMLCollection -> array
         document.getElementsByTagName('button')
