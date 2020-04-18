@@ -158,7 +158,8 @@
       throw `Bad x,y,size combo ${x},${y},${size}`;
     }
 
-
+    // To understand the code, review the html structure first
+    // Then follow initGame() esp the code setting onclick.
     // closure per button, with own row / col value
     //
     // caveat1: getElementsByTagName() before page loads, finds no buttons
@@ -183,11 +184,10 @@
 
             // TODO move button into hole if neighb
 
-            nMoves++;
-            gameStatus.innerText = `Player: ${nMoves}`;
+            gameStatus.innerText = `Moves: ${++nMoves}`;
 
             // In firefox console opens with CTRL+SHIFT+K
-            console.log(`Player clicked: ${btn.value}`);
+            console.log(`Player clicked tile ${btn.idx} at ${btn.value}`);
 
             // TilePuzzle only has win or not win
             checkGameWon();
@@ -250,7 +250,7 @@
   <table id="game-table">
     <thead>
       <tr>
-        <th ID="gameStatus" colspan="1" align="left">Moves: O</th>
+        <th ID="gameStatus" colspan="1" align="left">Moves: 0</th>
       </tr>
     </thead>
     <tbody id="game-table-body">
