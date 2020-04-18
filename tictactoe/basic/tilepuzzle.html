@@ -182,9 +182,12 @@
           //
           btn.onclick=function(){
 
-            // TODO move button into hole if neighb
-
             gameStatus.innerText = `Moves: ${++nMoves}`;
+
+            // TODO move button into hole if neighb
+            let holeIndex = findHoleIndex(buttons);
+            let canMove = isNeighbour(btn.idx, holeIndex, SIDE);
+            console.debug(`Tile ${btn.idx} ${canMove?'IS':'NOT'} next to hole`);
 
             // In firefox console opens with CTRL+SHIFT+K
             console.log(`Player clicked tile ${btn.idx} at ${btn.value}`);
@@ -195,11 +198,55 @@
 
         })(i, buttons[i], int(1+i/SIDE), int(1+i%SIDE));
 
-        //activeButtons = buttons.length;
-
         gameStatus = document.getElementById('gameStatus');
         nMoves=0;
       }
+    }
+
+    function findHoleIndex(arrBtns){
+      let i;
+      for( i = 0; i<arrBtns.length; ++i){
+        if( arrBtns[i].classList.contains('hole') ){
+          console.debug(`Hole position: index ${i}`);
+          return i;
+        }
+      }
+
+      throw `Logic error.. 0/${i} button/tiles has 'hole' class `;
+    }
+
+    // return true if cells at supplied indices adjacent
+    // horiz adjacent: same row, cols differ by 1
+    // vert adjacent: same col, rows differ by 1
+    // so need row/col methods..
+    function isNeighbour(btnIdx, holeIdx, SIDE){
+      btnRow = index2Row(btnIdx, SIDE);
+      btnCol = index2Col(btnIdx, SIDE);
+      holeRow = index2Row(holeIdx, SIDE);
+      holeCol = index2Col(holeIdx, SIDE);
+      console.debug( `btn ${btnIdx} at (${btnCol},${btnRow}), hole at (${holeCol},${holeRow})` );
+
+      if( btnRow === holeRow ){
+        if( Math.abs(btnCol-holeCol) == 1 ){
+          return true;
+        }
+      } else if ( btnCol === holeCol ){
+        if( Math.abs(btnRow-holeRow) == 1){
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    //SIDE count of rows or cols
+    function index2Row( idx, SIDE ){
+      return int(idx/SIDE);
+    }
+
+    //SIDE count of rows or cols
+    function index2Col( idx, SIDE ){
+      return idx%SIDE;
     }
 
     function deactivateButtons(){
