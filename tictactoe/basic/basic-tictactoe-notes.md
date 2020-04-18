@@ -13,5 +13,7 @@ Wow, and git diff --word-diff=color removes the need for side by side, plus is f
         - [x] Must dynamically build table on some button click..
         - [x] Must attach click handler closure to each new button..
         - [x] Also recalculate winning line configs on resize
-- [ ] 15/4/2020 Convert to a Sliding Tile Puzzle         
 - [x] 16/4/2020 (almost too easy!) Idea: change style on winning line, with transition to new colour ?
+- [ ] 18/4/2020 unit tests e.g. for line-generator func
+- [ ] 15/4/2020 Convert to a Sliding Tile Puzzle         
+    - [ ] one button represents empty cell, others must carry a label (e.g. 1,2,3..)
