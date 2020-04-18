@@ -36,7 +36,7 @@
       font-size: 20px;
     }
     button.winner{
-      /* TODO how to make darkred a reusable constant ? */
+      /* TODO ??how to make darkred a reusable constant?? */
       background-color: darkred;
       transition: 0.5s;
     }
@@ -54,14 +54,6 @@
   </style>
 
   <script>
-    //const o = 'O', x = 'X';
-    //let player=x;
-    //let activeButtons = 9;//initial value, rebuilt
-    //let straightLines = [ //hard wired for 3x3 case, rebuilt on need
-    //   [0,1,2], [3,4,5],[6,7,8],//horiz
-    //    [0,3,6], [1,4,7],[2,5,8],//vert
-    //     [0,4,8], [2,4,6] //diagonals
-    //    ];
     let gameStatus = null;
     let nMoves = 0;
 
@@ -84,42 +76,22 @@
     // (bitwise-not)x2 truncates float to int see stackoverflow
     function int(val){ return ~~val; }
 
-    function isPlayerX(){ return player === x; }
-
-    function playerOccupiesLine(clicker,btnLine){
-      return btnLine.every( (b) => b.textContent === clicker );
-    }
-
-    function togglePlayer(){
-      nMoves++;
-      gameStatus.innerText = `Player: ${nMoves}`;
-    }
-
-    // receives O or X in clicker, must decide if is winner
-    //
-    // sledgehammer: just go thru all straight lines
-    // checking if winner fully populates one of them
-    //
     function checkGameWon(){
       const buttons = document.getElementsByTagName('button');
       for(let i = 0; i<buttons.length; i++){
 
-//        let btnLine = [];
-//        straightLines[i].forEach( index => btnLine.push(buttons[index]) );
-
         if( +i != +(buttons[i].textContent)){
-          //btnLine.forEach((btn) => btn.classList.add('winner') );// 'foreach' fails
-          //winOrDrawBlinker(gameStatus, player);
+          // found a button in wrong position
           return false;
         }
       }
 
-      console.log(`Win: lined up!`);
+      console.log(`All tiles in place - Game over - phew!`);
       deactivateButtons();
-      return true;
+      setGameOverStatus(gameStatus);
     }
 
-    function winOrDrawBlinker(cont){
+    function setGameOverStatus(cont){
       const bink = document.createElement('blink');
       bink.innerText = `Won in ${nMoves} moves!`;
       cont.innerText = ``;
@@ -132,11 +104,12 @@
     // It's a lot of fun...
     //
     function genGameTable(event){
-      //first get the size
       const size = document.getElementById("id-size").value;
       console.log(`genGameTable() new size: ${size}`);
       const body = document.getElementById("game-table-body");
       const rows = body.children;
+      /*
+      //Useful scaffolding
       for(let r = 0; r<rows.length; ++r){
         let row=rows[r];
         console.log(`row ${r} : ${row}`);
@@ -147,7 +120,7 @@
           console.log(`\telem ${d} : ${td} value: ${td.firstChild.value}`);
         }
       }
-
+      */
 
       // clear existing table body
       for(let r=rows.length; r>0; --r){
@@ -171,53 +144,7 @@
         body.append(row);
       }
 
-      straightLines = genStraightLines(size);
       initGame(event);
-    }
-
-    // Build array of indices for all straight lines in grid
-    //
-    function genStraightLines(size){
-
-      let lineArray = [];
-
-      // add rows (horizontal lines)
-      //
-      for( let r = 0; r < size; ++r){
-
-        var row = [];
-        for( let c = 0; c<size; ++c){
-          row.push( xysize2index(c,r,size) );
-        }
-        lineArray.push(row);
-      }
-
-      // add columns (vertical lines)
-      //
-      for( let c = 0; c < size; ++c){
-
-        var col = [];
-        for( let r = 0; r<size; ++r){
-          col.push( xysize2index(c,r,size) );
-        }
-        lineArray.push(col);
-      }
-
-      // add 2 diagonals
-      //
-      let fromTopLeft = [];
-      let fromTopRight = [];
-
-      for( let r = 0; r<size; ++r){
-        fromTopLeft.push( xysize2index(r,r,size) );
-        fromTopRight.push( xysize2index(size-r-1,r,size) );
-      }
-      lineArray.push(fromTopLeft);
-      lineArray.push(fromTopRight);
-
-//      xysize2index(-1,1,2); //trigger validation error (test)
-
-      return lineArray;
     }
 
     // index of cell in grid
@@ -237,7 +164,7 @@
     // caveat1: getElementsByTagName() before page loads, finds no buttons
     //
     function initGame(event){
-      console.log(`initGame(event=${event.type})`); //not event.name doh
+      console.log(`initGame(event=${event.type})`);
       const buttons = document.getElementsByTagName('button');
       const SIDE = Math.sqrt(buttons.length);
       for (var i=0 ; i < buttons.length ; i++){
@@ -253,17 +180,17 @@
           // onclick handles game logic
           //
           btn.onclick=function(){
+
             // TODO move button into hole if neighb
-            togglePlayer();
-            // In firefox open console with CTRL+SHIFT+K
+
+            nMoves++;
+            gameStatus.innerText = `Player: ${nMoves}`;
+
+            // In firefox console opens with CTRL+SHIFT+K
             console.log(`Player clicked: ${btn.value}`);
-            // Lock button down after it is taken
-            lockButton(btn);
-            // TilePuzzle only has win or not win 
-            if( checkGameWon() ){
-              console.log(`Game over - phew!`);
-              winOrDrawBlinker(gameStatus);
-            }
+
+            // TilePuzzle only has win or not win
+            checkGameWon();
           };
 
         })(i, buttons[i], int(1+i/SIDE), int(1+i%SIDE));
@@ -272,7 +199,6 @@
 
         gameStatus = document.getElementById('gameStatus');
         nMoves=0;
-        //togglePlayer();
       }
     }
 
@@ -282,17 +208,16 @@
       ).forEach( (btn) => {
         btn.onclick=null;
         btn.classList.remove('active');
-        //if(btn.textContent == ''){
-        //}
       });
     }
 
+/*
     function lockButton(btn){
       btn.onclick=null;
       btn.classList.remove('active');
       btn.classList.add('locked');
     }
-
+*/
     // see caveat1 above; 'load' would delay till images loaded
     addEventListener("DOMContentLoaded", initGame);
   </script>
