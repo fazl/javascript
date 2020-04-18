@@ -17,3 +17,5 @@ Wow, and git diff --word-diff=color removes the need for side by side, plus is f
 - [ ] 18/4/2020 unit tests e.g. for line-generator func
 - [ ] 15/4/2020 Convert to a Sliding Tile Puzzle         
     - [ ] one button represents empty cell, others must carry a label (e.g. 1,2,3..)
+- [ ] 18/4/2020 Conways game of life - using some kind of timer event in javascript??
+
