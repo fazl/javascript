@@ -15,7 +15,9 @@ Wow, and git diff --word-diff=color removes the need for side by side, plus is f
         - [x] Also recalculate winning line configs on resize
 - [x] 16/4/2020 (almost too easy!) Idea: change style on winning line, with transition to new colour ?
 - [ ] 18/4/2020 unit tests e.g. for line-generator func
-- [ ] 15/4/2020 Convert to a Sliding Tile Puzzle         
-    - [ ] one button represents empty cell, others must carry a label (e.g. 1,2,3..)
+- [x] 15/4/2020 (done: 19/4) Convert to a Sliding Tile Puzzle         
+    - [x] one button represents empty cell, others must carry a label (e.g. 1,2,3..)
+- [ ] 19/4/2020 Randomize puzzle at start
+- [ ] 19/4/2020 Allow sliding more than one tile with one click..
 - [ ] 18/4/2020 Conways game of life - using some kind of timer event in javascript??
 
