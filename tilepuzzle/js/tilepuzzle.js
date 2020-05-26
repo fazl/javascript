@@ -232,7 +232,7 @@ function swapTileProperties(btn,hole){
 }
 function deactivateButtons(){
   [].slice.call( // HTMLCollection -> array
-    document.getElementsByTagName('button')
+    document.getElementsByClassName('gametile')
   ).forEach( (btn) => {
     btn.onclick=null;
     btn.classList.remove('active');
