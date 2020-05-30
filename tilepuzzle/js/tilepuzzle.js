@@ -20,6 +20,17 @@ window.onerror = function(msg, url, line, col, error) {
    return suppressErrorAlert;
 };
 
+//From T.J.Crowder https://stackoverflow.com/a/15313435/7409029
+function assert(condition, message) {
+    if (!condition) {
+        message = message || "Assertion failed";
+        if (typeof Error !== "undefined") {
+            throw new Error(message);
+        }
+        throw message; // Fallback
+    }
+}
+
 // (bitwise-not)x2 truncates float to int see stackoverflow
 function int(val){ return ~~val; }
 
@@ -81,6 +92,9 @@ function genGameTable(event){
   }
 
   // repopulate with `size x size` grid
+  // create `size` rows, each with `size` buttons
+  // give each button style 'gametile'
+  // ?? Could add labels here too, currently done in initGame ??
   for(let r = 0; r<size; ++r){
     let row=document.createElement("tr");;
     console.log(`New row ${r} : ${row}`);
@@ -89,6 +103,10 @@ function genGameTable(event){
       let btn=document.createElement("button");
       btn.classList.add('gametile');
       btn.value=`col=${d},row=${r}`;
+      btn.idx = rowCol2Index(r,d,size);
+      btn.value = `col=${d},row=${r}`;
+      btn.classList.add( (btn.idx+1)<(size*size) ? 'active' : 'hole');
+      btn.textContent = btn.idx+1;
       td.append(btn);
       console.log(`\telem ${d} : ${td} value: ${td.firstChild.value}`);
       row.append(td);
@@ -123,22 +141,18 @@ function initGame(event){
   buttons = document.getElementsByClassName('gametile');
   // remove resizer button
   //buttons.splice(0,1);
-  
+
   const SIDE = Math.sqrt(buttons.length);
   let prevHoleIdx = -1; // safe initial value
   shuffleMode = true;
   for (let i = 0 ; i < buttons.length ; i++){
     (function(label,btn,row,col){
-      btn.idx = label - 1;
-      btn.value = `col=${col},row=${row}`;
-      btn.classList.add(label<buttons.length ? 'active' : 'hole');
-      btn.textContent = label;
       btn.onclick=function(){ // handle game logic
         console.log(`Clicked on ${btn.textContent} at idx ${btn.idx} coords ${btn.value}`);
         const holeIdx = findHoleIndex(buttons);
         const btnLine=btnsBetween(btn.idx, holeIdx, SIDE);
         console.debug(`Btns (inclusive) between ${btn.textContent} at idx ${btn.idx} and hole: ${btnLine}`);
-        
+
         let canMove = (btnLine!==null);
         console.debug(`Btn ${btn.textContent} at idx ${btn.idx} ${canMove?'CAN':'CANT'} move towards hole`);
 
@@ -148,10 +162,10 @@ function initGame(event){
             canMove = false;
           }
         }
-        
+
         if( canMove ){
           let lineHoleIdx = holeIdx;
-          for (let i = 1 ; i < btnLine.length ; i++){ // skip hole 
+          for (let i = 1 ; i < btnLine.length ; i++){ // skip hole
             const lineBtnIdx = btnLine[i];
             let lineBtn = buttons[ lineBtnIdx ];
             swapTileProperties(lineBtn,buttons[lineHoleIdx]);
@@ -191,7 +205,7 @@ function findHoleIndex(arrBtns){
 }
 
 // return a list of (indexes of) buttons to click between hole
-// and button at the supplied index, to move them all 
+// and button at the supplied index, to move them all
 // (return an empty list if appropriate).
 //
 function btnsBetween(btnIdx, holeIdx, SIDE){
@@ -231,11 +245,11 @@ function btnsBetween(btnIdx, holeIdx, SIDE){
   return null;
 }
 
-// return whether cells at supplied indices 
+// return whether cells at supplied indices
 // are aligned horizontally ('SAMEROW'),
-// or vertically ('SAMECOL'), 
+// or vertically ('SAMECOL'),
 // or not ('').
-// 
+//
 function areAligned(btnIdx, holeIdx, SIDE){
 
   btnRow = index2Row(btnIdx, SIDE);
@@ -249,7 +263,7 @@ function areAligned(btnIdx, holeIdx, SIDE){
   if ( btnCol === holeCol ){
     console.debug( `btn at idx ${btnIdx} same col as hole` );
     return "SAMECOL";
-  } 
+  }
 
   console.debug( `btn at idx ${btnIdx} not aligned with hole` );
   return "";
@@ -329,12 +343,9 @@ function randomiseGame(){
   for(let i = 1; i<42; ){
     let holeIdx = findHoleIndex(buttons);
     let neighbIndex = getRandomNeighbour(holeIdx,SIDE);
-    if(neighbIndex != holeIdx){
-      (buttons[neighbIndex]).onclick();
-      ++i;
-    }else{
-      // throw `Oops, neighbIndex: ${neighbIndex} = holeIdx: ${holeIdx}`;
-    }
+    assert(neighbIndex != holeIdx, "Got hole back from getRandomNeighbour(holeIdx,SIDE)");
+    (buttons[neighbIndex]).onclick();
+    ++i;
   }
 }
 
@@ -352,7 +363,7 @@ function getRandomNeighbour(index,SIDE){
 }
 
 function getRandomAdjacent(pos,SIDE){
-  delta = randomInclusive(-1,1);
+  delta = randomInclusive(0,1)*2-1;
   let adjPos = pos + delta;
   if(adjPos<0 || SIDE<=adjPos){
     adjPos = pos - delta;
@@ -369,4 +380,4 @@ function randomInclusive(min, max) { // min and max included
 }
 
 // see caveat1 above; 'load' would delay till images loaded
-addEventListener("DOMContentLoaded", initGame);
+addEventListener("DOMContentLoaded", genGameTable);
