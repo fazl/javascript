@@ -6,7 +6,9 @@ Note: At [Github](https://github.com/fazl/javascript) this file is 'marked up' i
 ## Basic syntax
 Super-similar to C/Java:
 - same **control structures** (for/while/do,switch/if/else if/else)
+    - for (let i=0; i<5; i++) {...}
     - but adds 2 kinds of _foreach_: for( let _val_ **of array**) and for( let _prop_ **in object**)
+    - also adds a _forEach( callbackFunc )_ member on arrays
     - and can **switch** on a **string** (handy)
 - same **operators**: _arithmetic_ (**+ - * / %**) and _conditional_ (**&& || !**) (inc _short circuit_ behaviour)
     - adds extra === operator (does not promote operands):
