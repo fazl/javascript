@@ -2,121 +2,162 @@
 
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
 
-  <title>Resizable Tile Puzzle</title>
-  <meta name="description" content="Resizable Tile Puzzle">
-  <meta name="author" content="Fazl">
+    <title>Autosolving Tile Puzzle</title>
+    <meta content="Autosolving Tile Puzzle" name="description">
+    <meta content="Fazl" name="author">
 
-<!--  <link rel="stylesheet" href="css/styles.css?v=1.0">-->
+    <!--  <link rel="stylesheet" href="css/styles.css?v=1.0">-->
 
-  <!-- inline styles take precedence over external -->
-  <style type="text/css">
-    button{
-      width: 130px;
-      height: 130px;
-      outline: none;
-      border: none;
-      background-color: lightblue;
-      color: black;
-      font-size: 30px;
-    }
-    button.hole{
-      background-color: black;
-      font-size: 20px;
-    }
-    button.active:hover{
-      cursor: pointer;
-      background-color: green;
-      font-size: 50px;
-      transition: 0.5s;
-    }
-    button.locked{
-      background-color: green;
-      font-size: 20px;
-    }
-    button.gameover{
-      /* TODO ??how to make darkred a reusable constant?? */
-      background-color: yellow;
-      transition: 1s;
-    }
-    button.newgame{
-      width: 130px;
-      height: 20px;
-      outline: none;
-      border: none;
-      background-color: yellow;
-      color: black;
-      font-size: 14px;
-    }
-    table {
-        margin:0 auto;
-    }
-    blink {
-        color: darkred;
-        animation: blink 1s steps(1) infinite;
-        -webkit-animation: blink 1s steps(1) infinite;
-    }
-    @keyframes blink { 50% { color: transparent; } }
-    @-webkit-keyframes blink { 50% { color: transparent; }
-    }
-  </style>
+    <!-- inline styles take precedence over external -->
+    <style type="text/css">
+        button {
+            width: 130px;
+            height: 130px;
+            outline: none;
+            border: none;
+            background-color: lightblue;
+            color: black;
+            font-size: 30px;
+        }
 
-  <script>
-  </script>
+        button.hole {
+            background-color: black;
+            font-size: 20px;
+        }
+
+        button.active:hover {
+            cursor: pointer;
+            background-color: green;
+            font-size: 50px;
+            transition: 0.5s;
+        }
+
+        button.locked {
+            background-color: green;
+            font-size: 20px;
+        }
+
+        button.gameover {
+            /* TODO ??how to make darkred a reusable constant?? */
+            background-color: yellow;
+            transition: 1s;
+        }
+
+        button.newgame {
+            width: 130px;
+            height: 20px;
+            outline: none;
+            border: none;
+            background-color: yellow;
+            color: black;
+            font-size: 14px;
+        }
+
+        table {
+            margin: 0 auto;
+        }
+
+        blink {
+            color: darkred;
+            animation: blink 1s steps(1) infinite;
+            -webkit-animation: blink 1s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                color: transparent;
+            }
+        }
+
+        @-webkit-keyframes blink {
+            50% {
+                color: transparent;
+            }
+        }
+    </style>
+
+    <script>
+    </script>
 
 </head>
 
 <body>
-  <script src="js/tilepuzzle.js"></script>
+<script src="js/tilepuzzle.js"></script>
 
-  <!--
-  First table holds title and controls for setting game size, starting a new game
-  -->
-  <table>
+<!--
+First table holds title and controls for setting game size, starting a new game
+-->
+<table>
     <thead>
-      <tr>
-        <th colspan="3"> <h1>Resizable Tile Puzzle</h1> </th>
-      </tr>
-      
-      <tr>
-        <th colspan="2" align="left">
-          Size: 3..9 :
-          <input id="id-size" min="2" max="9" value="3" type="number" onclick="genGameTable(event)" />
-          <button id="id-new-game" class="newgame" onclick="genGameTable(event)">New Game</button>
+    <tr>
+        <th colspan="3"><h1>Resizable Tile Puzzle</h1></th>
+    </tr>
+
+    <tr>
+        <th align="left" colspan="2">
+            <label for="id-size">Size: 3..9 :</label><input id="id-size" max="9" min="3" onclick="genGameTable(event)" type="number" value="3"/>
+            <button class="newgame" id="id-new-game" onclick="genGameTable(event)">New Game</button>
         </th>
-        <th colspan="1" align="right">
-          <button id="id-solve-game" class="newgame" onclick="solveGame()">Give up!</button>
+        <th align="right" colspan="1">
+            <button class="newgame" id="id-solve-game" onclick="solveGame()">Autosolve!</button>
         </th>
-      </tr>
+    </tr>
 
     </thead>
-  </table>
+</table>
 
-  <!--
-  Second table holds the grid of game tiles (buttons)
-  The literal table here is repopulated when the game starts
-  -->
-  <table id="game-table">
+<!--
+Second table holds the grid of game tiles (buttons)
+The literal table here is repopulated when the game starts
+-->
+<table id="game-table">
     <thead>
-      <tr>
-        <th ID="gameStatus" colspan="1" align="left">Moves: 0</th>
-        <th ID="gameStatus2" colspan="2" align="right">Solvable in: ?</th>
-      </tr>
+    <tr>
+        <th ID="gameStatus" align="left" colspan="1">Moves: 0</th>
+        <th ID="gameStatus2" align="right" colspan="2">Solvable in: ?</th>
+    </tr>
     </thead>
     <tbody id="game-table-body">
-      <!-- tbody rebuilt at runtime -->
-      <tr>
-        <td><button/></td> <td><button/></td> <td><button/></td>
-      </tr>
-      <tr>
-        <td><button/></td> <td><button/></td> <td><button/></td>
-      </tr>
-      <tr>
-        <td><button/></td> <td><button/></td> <td><button/></td>
-      </tr>
+    <!-- tbody rebuilt at runtime -->
+    <tr>
+        <td>
+            <button/>
+        </td>
+        <td>
+            <button/>
+        </td>
+        <td>
+            <button/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button/>
+        </td>
+        <td>
+            <button/>
+        </td>
+        <td>
+            <button/>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button/>
+        </td>
+        <td>
+            <button/>
+        </td>
+        <td>
+            <button/>
+        </td>
+    </tr>
     </tbody>
-  </table>
+</table>
+
+<!--<audio id="id_audio" preload="auto"><source src="js/slide.wav" type="audio/wav"></audio>-->
 
 </body>
 </html>
